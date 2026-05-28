@@ -1,8 +1,9 @@
 {
   "name": "Study Environment Advisor",
   "short_name": "study-enviro",
-  "start_url": "/",
+  "start_url": "/study-environment-advisor/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#6366f1"
+  "theme_color": "#6366f1",
+  "scope": "/study-environment-advisor/"
 }
