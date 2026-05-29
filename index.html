@@ -69,6 +69,10 @@ j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src=
             .result-value { font-size: 28px; }
         }
         /* ── サービス固有CSS ── */
+        .quiz-opt { width:100%; padding:12px 14px; margin-bottom:8px; border:2px solid #e5e7eb; border-radius:10px; font-size:14px; cursor:pointer; background:#fff; text-align:left; transition:border-color .15s, background .15s; }
+        .quiz-opt:hover { border-color:#7c3aed; background:#f5f3ff; }
+        .quiz-opt:active { transform:scale(0.99); background:#ede9fe; }
+        .quiz-opt:focus-visible { outline:3px solid #7c3aed; outline-offset:2px; }
 
     
 @media print{
@@ -90,7 +94,7 @@ j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src=
     <header class="site-header" role="banner">
         <div class="emoji" aria-hidden="true">📚</div>
         <h1>勉強・集中環境診断</h1>
-        <p>学習スタイル・集中できる時間帯・環境の悩みから最適な勉強環境（場所・道具・時...</p>
+        <p>学習スタイル・集中できる時間帯・環境の悩みから最適な勉強環境（場所・道具・時間帯）を診断します</p>
     </header>
 
     <main id="main-content" class="container" role="main" aria-label="勉強・集中環境診断のメインコンテンツ">
@@ -99,7 +103,7 @@ j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src=
 
         <div class="card" id="quiz-start">
           <h2 style="font-size:18px;font-weight:700;margin-bottom:12px;">📚 勉強・集中環境診断</h2>
-          <p style="color:#666;font-size:14px;margin-bottom:8px;">学習スタイル・集中できる時間帯・環境の悩みから最適な勉強環境（場所・道具・時...</p>
+          <p style="color:#666;font-size:14px;margin-bottom:8px;">学習スタイル・集中できる時間帯・環境の悩みから最適な勉強環境（場所・道具・時間帯）を診断します</p>
           <ul style="font-size:13px;color:#94a3b8;margin:0 0 16px 16px;"><li>質問数：5問</li><li>所要時間：約1分</li></ul>
           <button class="btn" onclick="startQuiz()">診断スタート →</button>
         </div>
@@ -117,7 +121,35 @@ j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src=
           <div class="card">
             <h3 id="r-title" style="font-size:18px;font-weight:700;margin-bottom:8px;color:#7c3aed;"></h3>
             <p id="r-desc" style="color:#444;font-size:14px;line-height:1.7;"></p>
-            <button class="btn" style="margin-top:16px;" onclick="location.reload()">もう一度診断</button>
+            <!-- チェックリスト -->
+            <div id="r-checklist-wrap" style="margin-top:16px;display:none;">
+              <p style="font-size:13px;font-weight:700;color:#374151;margin-bottom:8px;">✅ 環境整備チェックリスト</p>
+              <ul id="r-checklist" style="padding-left:0;list-style:none;display:flex;flex-direction:column;gap:6px;"></ul>
+            </div>
+            <!-- 今日からできるアクション -->
+            <div id="r-actions-wrap" style="margin-top:14px;background:#f0fdf4;border-radius:10px;padding:12px;display:none;">
+              <p style="font-size:13px;font-weight:700;color:#166534;margin-bottom:8px;">🚀 今日からできるアクション</p>
+              <ul id="r-actions" style="padding-left:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:13px;color:#166534;"></ul>
+            </div>
+            <!-- 予算別アドバイス -->
+            <div id="r-budget-wrap" style="margin-top:14px;background:#eff6ff;border-radius:10px;padding:12px;display:none;">
+              <p id="r-budget-label" style="font-size:13px;font-weight:700;color:#1e40af;margin-bottom:8px;">💰 予算別おすすめ</p>
+              <ul id="r-budget" style="padding-left:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:13px;color:#1e40af;"></ul>
+            </div>
+            <!-- アフィリエイトリンク -->
+            <div id="r-items-wrap" style="margin-top:14px;display:none;">
+              <p style="font-size:13px;font-weight:700;color:#374151;margin-bottom:8px;">🛒 おすすめアイテム（Amazon）</p>
+              <div id="r-items" style="display:flex;flex-direction:column;gap:8px;"></div>
+            </div>
+            <!-- SNSシェア -->
+            <div style="margin-top:16px;padding-top:14px;border-top:1px solid #f1f5f9;text-align:center;">
+              <p style="font-size:12px;color:#6b7280;margin-bottom:8px;">結果をシェアする</p>
+              <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+                <a id="r-share-x" href="#" target="_blank" rel="noopener" style="background:#1DA1F2;color:white;padding:7px 14px;border-radius:8px;font-size:12px;text-decoration:none;font-weight:600;min-height:40px;display:inline-flex;align-items:center;">𝕏 シェア</a>
+                <a id="r-share-line" href="#" target="_blank" rel="noopener" style="background:#00B900;color:white;padding:7px 14px;border-radius:8px;font-size:12px;text-decoration:none;font-weight:600;min-height:40px;display:inline-flex;align-items:center;">LINE</a>
+              </div>
+            </div>
+            <button class="btn" style="margin-top:14px;" onclick="restartQuiz()">もう一度診断</button>
           </div>
         </div>
 
@@ -188,8 +220,8 @@ j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src=
         </div>
     </main>
 
-    <footer style="text-align:center;padding:20px;color:white;font-size:12px;opacity:0.75;margin-top:8px;">
-        <p><a href="https://appadaycreator.github.io/" style="color:white;">AppADayCreator</a>
+    <footer style="text-align:center;padding:20px;color:white;font-size:12px;background:#374151;margin-top:8px;">
+        <p><a href="https://appadaycreator.com/" style="color:white;">AppADayCreator</a>
         | <a href="privacy-policy.html" style="color:white;">プライバシーポリシー</a>
         | <a href="terms.html" style="color:white;">利用規約</a>
         | <a href="contact.html" style="color:white;">お問い合わせ</a></p>
@@ -206,10 +238,70 @@ j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src=
       { text:'Q5. 環境整備に使える予算は？', opts:['ほぼ0円（今あるもので工夫）','1〜3万円で必要なものを揃えたい','3〜10万円でしっかり整備したい','予算より快適さ・生産性重視'] }
     ];
     const RESULTS = [
-      { title:'📚 自宅・静寂環境タイプ — 専用デスクと防音で最強の集中空間を', desc:'自宅の静かな空間が最大限の集中をもたらします。環境整備のポイント：①机の向きを壁向きにして視界を遮断 ②デスクライト（BenQがおすすめ）で目線の照度を上げる ③ノイズキャンセリングイヤホン（AirPods Pro・Sony WH-1000XM5）で生活音を遮断。「勉強専用の場所を決める」ことで脳がスイッチを入れやすくなります。スマホは引き出しに入れるか別室に置くのが最強の誘惑対策です。' },
-      { title:'☕ カフェ・コワーキング活用タイプ — 適度な雑音が集中を高める', desc:'「カフェノイズ」は70dB前後で脳のα波を活性化し、創造性・集中力を高めることが研究で示されています。活用のコツ：①席は壁際・隅の席を選ぶ ②注文は一品で長居可能なコーヒー・ドリンク ③2〜3時間を上限に場所を変える。コワーキングスペース（月額3,000〜15,000円）は電源・Wi-Fi完備で本格的。「Studyplus」アプリで勉強時間を記録するとモチベーション維持に効果的です。' },
-      { title:'🌅 早朝・朝型勉強タイプ — 最も脳がクリアな時間を活用', desc:'起床後2〜3時間（コルチゾールのピーク時）は脳の記憶・集中機能が最も高い時間帯です。早朝勉強の環境整備：①前夜に翌日の勉強セットを机に準備 ②アラームを普段より30〜60分早め ③起床後すぐにカーテンを開けて光を浴びる（セロトニン分泌）。「朝食前の30分」だけでも継続すれば年間180時間以上の学習時間を確保できます。Studyplus・Habiticaでの習慣トラッキングが継続の鍵です。' },
-      { title:'🎧 BGM・音楽環境タイプ — 最適なサウンドで深い集中へ', desc:'作業内容によって最適な音楽が異なります：①暗記・読書：歌詞のないクラシック・ローファイヒップホップ ②プログラミング・創作：テンポ60〜80BPMの音楽 ③計算・分析：完全無音または自然音。YouTubeの「Study with me（ポモドーロタイマー付き）」チャンネルや、Spotifyの「Focus Flow」プレイリストがおすすめ。ノイズキャンセリングイヤホンとBGMの組み合わせが最強の集中環境を作ります。' }
+      {
+        title:'📚 自宅・静寂環境タイプ — 専用デスクと防音で最強の集中空間を',
+        desc:'自宅の静かな空間が最大限の集中をもたらします。「勉強専用の場所を決める」ことで脳がスイッチを入れやすくなります。スマホは引き出しに入れるか別室に置くのが最強の誘惑対策です。',
+        checklist:['机を壁向きに配置して視界をシャットアウト','スマホは勉強中は引き出しか別室へ','デスクライトで手元の照度をしっかり確保','ドアに「勉強中」サインを貼る'],
+        actions:['今日: デスク上を片付けて勉強ゾーンを作る','今週: スマホのSNS通知をすべてオフ','今月: ノイズキャンセリング手段を1つ導入'],
+        budgets:[
+          ['スマホを別室に置く（0円）','ノイズキャンセリング無料アプリを活用','カーテンを閉めて外光・騒音をブロック'],
+          ['耳栓（300〜1,000円）','デスクライト（2,000〜5,000円）','スマホタイムロックアプリ（無料〜300円）'],
+          ['BenQデスクライト ScreenBar（8,000〜12,000円）','ノイズキャンセリングイヤホン（15,000〜30,000円）','デスクパーティション（3,000〜8,000円）'],
+          ['AirPods Pro / Sony WH-1000XM5（30,000〜40,000円）','スタンディングデスク（50,000〜）','BenQモニターライトBar Pro（15,000〜20,000円）'],
+        ],
+        items:[
+          { name:'BenQ ScreenBar デスクライト', tag:'集中力UP', url:'https://www.amazon.co.jp/s?k=BenQ+ScreenBar&tag=appadaycreator-22' },
+          { name:'Sony WH-1000XM5 ノイズキャンセリング', tag:'防音', url:'https://www.amazon.co.jp/s?k=Sony+WH-1000XM5&tag=appadaycreator-22' },
+        ]
+      },
+      {
+        title:'☕ カフェ・コワーキング活用タイプ — 適度な雑音が集中を高める',
+        desc:'「カフェノイズ」は70dB前後で脳のα波を活性化し、創造性・集中力を高めることが研究で示されています。席は壁際・隅を選び、2〜3時間を上限に場所を変えると集中が持続します。',
+        checklist:['カフェの壁際・隅の席を選ぶ','注文は1杯で2〜3時間の作業を目安に','コワーキングスペースの月額プランも検討','「Studyplus」で作業時間を記録する'],
+        actions:['今日: お気に入りのカフェを1軒リストアップ','今週: コワーキングスペースの無料体験に申し込む','今月: 週3回の外作業ルーティンを確立'],
+        budgets:[
+          ['図書館・公民館（無料）','ファストフードのコンセント席（100〜500円）','スタバのモバイルオーダーで時短'],
+          ['カフェ1杯（500〜800円×週3回）','有線イヤホン（1,000〜5,000円）','ノートPCスタンド（2,000〜5,000円）'],
+          ['コワーキングスペース月額（3,000〜10,000円）','モバイルバッテリー（5,000〜10,000円）','軽量ノートPC用バッグ（5,000〜15,000円）'],
+          ['専用コワーキングブース（15,000〜/月）','外付けモバイルモニター（30,000〜）','高性能モバイルWi-Fiルーター（20,000〜）'],
+        ],
+        items:[
+          { name:'ノートPCスタンド 折りたたみ式', tag:'外出先で快適', url:'https://www.amazon.co.jp/s?k=ノートPCスタンド+折りたたみ&tag=appadaycreator-22' },
+          { name:'Anker モバイルバッテリー 大容量', tag:'持ち出し必需品', url:'https://www.amazon.co.jp/s?k=Anker+モバイルバッテリー&tag=appadaycreator-22' },
+        ]
+      },
+      {
+        title:'🌅 早朝・朝型勉強タイプ — 最も脳がクリアな時間を活用',
+        desc:'起床後2〜3時間（コルチゾールのピーク時）は脳の記憶・集中機能が最も高い時間帯です。「朝食前の30分」だけでも継続すれば年間180時間以上の学習時間を確保できます。',
+        checklist:['前夜に翌日の勉強セットを机に準備','アラームを普段より30〜60分早める','起床後すぐにカーテンを開けて光を浴びる','コーヒーは起床30分後に（コルチゾール最大化）'],
+        actions:['今夜: 翌朝の教材と筆記具を机に出しておく','今週: 15分早起きして朝ルーティンを作る','今月: 習慣トラッカーアプリで継続を記録する'],
+        budgets:[
+          ['スマホのアラーム活用（0円）','YouTubeのStudy with me動画（無料）','図書館で早朝自習（無料〜100円）'],
+          ['起床ライト（3,000〜8,000円）','Studyplus / Habiticaプレミアム（月300〜500円）','インスタントコーヒー（月1,000円）'],
+          ['光目覚まし時計（8,000〜15,000円）','ホワイトノイズマシン（5,000〜10,000円）','デスクライト（5,000〜10,000円）'],
+          ['スマートライト自動点灯システム（20,000〜）','高品質マットレス（疲労回復・早起き改善）（50,000〜）','コーヒーメーカー タイマー付き（15,000〜）'],
+        ],
+        items:[
+          { name:'フィリップス 光目覚ましライト SmartSleep', tag:'早起き習慣', url:'https://www.amazon.co.jp/s?k=フィリップス+光目覚まし&tag=appadaycreator-22' },
+          { name:'Kindle Paperwhite 電子書籍リーダー', tag:'朝の読書に', url:'https://www.amazon.co.jp/s?k=Kindle+Paperwhite&tag=appadaycreator-22' },
+        ]
+      },
+      {
+        title:'🎧 BGM・音楽環境タイプ — 最適なサウンドで深い集中へ',
+        desc:'作業内容によって最適な音楽が異なります。暗記・読書は歌詞のないクラシック・ローファイ、プログラミングはテンポ60〜80BPMが効果的です。ノイズキャンセリングイヤホンとBGMの組み合わせが最強です。',
+        checklist:['勉強内容に合った音楽ジャンルを選ぶ','Spotifyの「Focus Flow」プレイリストを活用','YouTubeの「Pomodoro Timer + BGM」動画を使う','音楽再生デバイスを固定して集中の儀式を作る'],
+        actions:['今日: 作業用BGMのプレイリストを1つ作る','今週: ローファイヒップホップで1時間作業する','今月: 最も集中できるジャンルを見つける'],
+        budgets:[
+          ['YouTube / Spotifyの無料プラン（0円）','スマホ付属イヤホン（0円）','ローファイRadio系YouTubeチャンネル（無料）'],
+          ['Spotify Premium（月980円）','有線イヤホン（1,000〜5,000円）','イヤーマフ耳栓（2,000〜5,000円）'],
+          ['ノイズキャンセリングイヤホン（15,000〜30,000円）','Apple Music / Amazon Music HD（月1,080〜）','Bluetoothスピーカー（5,000〜15,000円）'],
+          ['AirPods Pro 第2世代（35,000〜）','BOSE QuietComfort Ultra（60,000〜）','Hi-Fiヘッドホン + DACアンプ（50,000〜）'],
+        ],
+        items:[
+          { name:'Sony WF-1000XM5 ワイヤレスイヤホン', tag:'BGM集中', url:'https://www.amazon.co.jp/s?k=Sony+WF-1000XM5&tag=appadaycreator-22' },
+          { name:'Anker Soundcore Q45 ヘッドホン', tag:'コスパ最高', url:'https://www.amazon.co.jp/s?k=Anker+Soundcore+Q45&tag=appadaycreator-22' },
+        ]
+      }
     ];
     function getResult(answers) {
       const scores = [0,0,0,0];
@@ -229,43 +321,43 @@ j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src=
       const best = scores.indexOf(Math.max(...scores));
       return RESULTS[best];
     }
-    // ★以下変更不要★
-    const BTN='#7c3aed'; let cur=0; const ans=[];
+    let cur=0; const ans=[];
     document.addEventListener('DOMContentLoaded',()=>{ document.getElementById('q-total').textContent=QUESTIONS.length; });
     function startQuiz(){ cur=0;ans.length=0; document.getElementById('quiz-start').style.display='none'; document.getElementById('quiz-area').style.display='block'; document.getElementById('result').classList.remove('show'); renderQ(); }
+    function restartQuiz(){ document.getElementById('quiz-start').style.display='block'; document.getElementById('quiz-area').style.display='none'; document.getElementById('result').classList.remove('show'); }
+    function goBack(){ if(cur>0){ ans.pop(); cur--; renderQ(); } }
     function renderQ(){
       const q=QUESTIONS[cur];
       document.getElementById('q-num').textContent=cur+1;
       document.getElementById('q-bar').style.width=((cur+1)/QUESTIONS.length*100)+'%';
       document.getElementById('q-text').textContent=q.text;
-      document.getElementById('q-options').innerHTML=q.opts.map((o,i)=>`<button onclick="answer(${i}" style="width:100%;padding:12px;margin-bottom:8px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;cursor:pointer;background:#fff;text-align:left;">${o}</button>`).join('');
+      const backBtn=cur>0?`<button onclick="goBack()" style="background:none;border:none;color:#7c3aed;font-size:13px;cursor:pointer;padding:0 0 10px 0;display:block;">← 前の質問に戻る</button>`:'';
+      document.getElementById('q-options').innerHTML=backBtn+q.opts.map((o,i)=>`<button class="quiz-opt" onclick="answer(${i})">${o}</button>`).join('');
     }
     function answer(idx){ ans.push({idx}); cur++; if(cur>=QUESTIONS.length) showResult(); else renderQ(); }
     function showResult(){
       document.getElementById('quiz-area').style.display='none';
       const r=getResult(ans);
+      const budget=ans[4]?ans[4].idx:0;
       document.getElementById('r-title').textContent=r.title;
       document.getElementById('r-desc').textContent=r.desc;
+      document.getElementById('r-checklist').innerHTML=r.checklist.map(c=>`<li style="display:flex;align-items:flex-start;gap:6px;font-size:13px;color:#374151;"><span style="color:#7c3aed;flex-shrink:0;font-weight:700;">✓</span>${c}</li>`).join('');
+      document.getElementById('r-checklist-wrap').style.display='block';
+      document.getElementById('r-actions').innerHTML=r.actions.map(a=>`<li style="display:flex;align-items:flex-start;gap:6px;">▶ ${a}</li>`).join('');
+      document.getElementById('r-actions-wrap').style.display='block';
+      const budgetLabels=['0円で工夫','1〜3万円','3〜10万円','予算重視'];
+      document.getElementById('r-budget-label').textContent=`💰 予算別おすすめ（${budgetLabels[budget]}）`;
+      document.getElementById('r-budget').innerHTML=r.budgets[budget].map(b=>`<li style="display:flex;align-items:flex-start;gap:6px;">💡 ${b}</li>`).join('');
+      document.getElementById('r-budget-wrap').style.display='block';
+      document.getElementById('r-items').innerHTML=r.items.map(it=>`<a href="${it.url}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:10px;text-decoration:none;color:#374151;font-size:13px;gap:8px;"><span style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;"><span style="background:#7c3aed20;color:#7c3aed;font-size:11px;padding:2px 8px;border-radius:10px;white-space:nowrap;">${it.tag}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${it.name}</span></span><span style="color:#7c3aed;font-size:12px;white-space:nowrap;flex-shrink:0;">Amazonで見る →</span></a>`).join('');
+      document.getElementById('r-items-wrap').style.display='block';
+      const titleShort=r.title.replace(/^[^\s]+\s/,'');
+      const shareText=encodeURIComponent(`「${titleShort}」でした！\n#勉強環境診断 #集中力アップ`);
+      const shareUrl=encodeURIComponent('https://appadaycreator.com/study-environment-advisor/');
+      document.getElementById('r-share-x').href=`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
+      document.getElementById('r-share-line').href=`https://line.me/R/msg/text/?${shareText}%0A${shareUrl}`;
       document.getElementById('result').classList.add('show');
-    }
-    // ★以下変更不要★
-    const BTN='#7c3aed'; let cur=0; const ans=[];
-    document.addEventListener('DOMContentLoaded',()=>{ document.getElementById('q-total').textContent=QUESTIONS.length; });
-    function startQuiz(){ cur=0;ans.length=0; document.getElementById('quiz-start').style.display='none'; document.getElementById('quiz-area').style.display='block'; document.getElementById('result').classList.remove('show'); renderQ(); }
-    function renderQ(){
-      const q=QUESTIONS[cur];
-      document.getElementById('q-num').textContent=cur+1;
-      document.getElementById('q-bar').style.width=((cur+1)/QUESTIONS.length*100)+'%';
-      document.getElementById('q-text').textContent=q.text;
-      document.getElementById('q-options').innerHTML=q.opts.map((o,i)=>`<button onclick="answer(${i})" style="width:100%;padding:12px;margin-bottom:8px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;cursor:pointer;background:#fff;text-align:left;">${o}</button>`).join('');
-    }
-    function answer(idx){ ans.push({idx}); cur++; if(cur>=QUESTIONS.length) showResult(); else renderQ(); }
-    function showResult(){
-      document.getElementById('quiz-area').style.display='none';
-      const r=getResult(ans);
-      document.getElementById('r-title').textContent=r.title;
-      document.getElementById('r-desc').textContent=r.desc;
-      document.getElementById('result').classList.add('show');
+      document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
     }
     </script>
 </body>
