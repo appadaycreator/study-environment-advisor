@@ -3,8 +3,8 @@
 ## 概要
 
 **サービス名**: Study Environment Advisor
-**バージョン**: 1.1.0
-**更新日**: 2026-05-29
+**バージョン**: 1.2.1
+**更新日**: 2026-06-03
 **URL**: https://appadaycreator.com/study-environment-advisor/
 
 学習スタイル・集中できる時間帯・環境の悩みから最適な勉強環境（場所・道具・時間帯）を診断。登録不要・完全無料でご利用いただけます。
@@ -30,6 +30,23 @@
 5. 結果のアドバイスを確認してSNSでシェアする
 
 ## 変更履歴
+
+### v1.2.1 (2026-06-03)
+- **改善**: PWA theme-color にダークモード対応を追加（light: #6366F1、dark: #4F46E5）
+- **改善**: HTML meta タグで `media="(prefers-color-scheme: light|dark)"` を指定
+
+### v1.2.0 (2026-06-03)
+- **バグ修正**: JavaScript 関数重複定義を削除（getResult/renderQ/answer/showResult）
+- **改善**: PWA theme-color を #7c3aed → #6366F1 に統一（ブランドカラー一貫性）
+- **改善**: Footer 背景色追加（可視性向上）
+- **改善**: Meta `theme-color` タグ追加（ブラウザUI色指定）
+- **改善**: OG Image をサービス専用デザインに変更（1200x630px、PNG）
+- **改善**: `og:image` メタデータに幅・高さ属性追加
+- **改善**: Input 要素フォントサイズを 15px → 16px に変更（iOS オートズーム防止）
+- **改善**: Input・Select・Textarea に `touch-action: manipulation` 追加（タッチ遅延排除）
+- **改善**: Organization structured data を追加（SEO強化）
+- **リファクタリング**: 質問選択肢を `<button>` → `<fieldset>/<legend>/<input type="radio">` に変更（セマンティックHTML化・アクセシビリティ向上）
+- **改善**: Footer opacity を 0.75 → 0.95 に上げて視認性向上
 
 ### v1.1.0 (2026-05-29)
 - **バグ修正**: JS重複定義（const BTN / 全関数）による診断完全動作不能を修正
